@@ -14,6 +14,10 @@ public class DatabaseManager {
     private static final String dbName = "challenge.db";
     private static String connectionString;
     private static Connection conn;
+    
+    public static Connection getConnection() {
+        return conn;
+    }
 
     static {
         File dbFile = new File(dbName);
@@ -109,7 +113,7 @@ public class DatabaseManager {
 
 
     // Helper methods to convert ResultSet to JSON - change if desired, but should not be required
-    private static JSONArray convertResultSetToJson(ResultSet rs) throws SQLException{
+    public static JSONArray convertResultSetToJson(ResultSet rs) throws SQLException{
         ResultSetMetaData md = rs.getMetaData();
         int columns = md.getColumnCount();
         List<String> colNames = IntStream.range(0, columns)
@@ -130,7 +134,7 @@ public class DatabaseManager {
         return jsonArray;
     }
 
-    private static JSONObject convertRowToJson(ResultSet rs, List<String> colNames) throws SQLException {
+    public static JSONObject convertRowToJson(ResultSet rs, List<String> colNames) throws SQLException {
         JSONObject obj = new JSONObject();
         for (String colName : colNames) {
             obj.put(colName, rs.getObject(colName));
