@@ -120,13 +120,28 @@ public class InventoryRoutes {
                     
                     // Parse JSON body
                     JSONObject requestBody = (JSONObject) org.json.simple.JSONValue.parse(body);
-                    Integer itemId = (Integer) requestBody.get("itemId");
-                    Integer stock = (Integer) requestBody.get("stock");
-                    Integer capacity = (Integer) requestBody.get("capacity");
+                    Integer itemId = null;
+                    Integer stock = null;
+                    Integer capacity = null;
+                    
+                    // Handle both Integer and Long types from JSON parsing
+                    Object itemIdObj = requestBody.get("itemId");
+                    Object stockObj = requestBody.get("stock");
+                    Object capacityObj = requestBody.get("capacity");
+                    
+                    if (itemIdObj instanceof Number) {
+                        itemId = ((Number) itemIdObj).intValue();
+                    }
+                    if (stockObj instanceof Number) {
+                        stock = ((Number) stockObj).intValue();
+                    }
+                    if (capacityObj instanceof Number) {
+                        capacity = ((Number) capacityObj).intValue();
+                    }
                     
                     if (itemId == null || stock == null || capacity == null) {
                         res.status(400);
-                        return "{\"error\": \"itemId, stock, and capacity are required\"}";
+                        return "{\"error\": \"itemId, stock, and capacity are required and must be numbers\"}";
                     }
                     
                     if (stock < 0 || capacity <= 0) {
