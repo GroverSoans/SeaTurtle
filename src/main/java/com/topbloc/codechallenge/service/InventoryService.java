@@ -196,4 +196,92 @@ public class InventoryService {
         
         return null;
     }
+    
+    // Update an existing inventory item
+    public static JSONObject updateInventoryItem(int itemId, int stock, int capacity) {
+        String updateSql = "UPDATE inventory SET stock = ?, capacity = ? WHERE item = ?";
+        String checkSql = "SELECT id FROM inventory WHERE item = ?";
+        
+        try {
+            Connection conn = DatabaseManager.getConnection();
+            
+            // Check if item exists in inventory
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            checkStmt.setInt(1, itemId);
+            ResultSet rs = checkStmt.executeQuery();
+            
+            if (!rs.next()) {
+                JSONObject error = new JSONObject();
+                error.put("error", "Item with ID " + itemId + " does not exist in inventory");
+                return error;
+            }
+            
+            // Update the inventory item
+            PreparedStatement updateStmt = conn.prepareStatement(updateSql);
+            updateStmt.setInt(1, stock);
+            updateStmt.setInt(2, capacity);
+            updateStmt.setInt(3, itemId);
+            
+            int affectedRows = updateStmt.executeUpdate();
+            if (affectedRows > 0) {
+                JSONObject result = new JSONObject();
+                result.put("itemId", itemId);
+                result.put("stock", stock);
+                result.put("capacity", capacity);
+                result.put("message", "Inventory item updated successfully");
+                return result;
+            } else {
+                JSONObject error = new JSONObject();
+                error.put("error", "Failed to update inventory item");
+                return error;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error updating inventory item: " + e.getMessage());
+            JSONObject error = new JSONObject();
+            error.put("error", "Database error: " + e.getMessage());
+            return error;
+        }
+    }
+    
+    // Delete an existing item from inventory
+    public static JSONObject deleteInventoryItem(int itemId) {
+        String checkSql = "SELECT id FROM inventory WHERE item = ?";
+        String deleteSql = "DELETE FROM inventory WHERE item = ?";
+        
+        try {
+            Connection conn = DatabaseManager.getConnection();
+            
+            // Check if item exists in inventory
+            PreparedStatement checkStmt = conn.prepareStatement(checkSql);
+            checkStmt.setInt(1, itemId);
+            ResultSet rs = checkStmt.executeQuery();
+            
+            if (!rs.next()) {
+                JSONObject error = new JSONObject();
+                error.put("error", "Item with ID " + itemId + " does not exist in inventory");
+                return error;
+            }
+            
+            // Delete the item from inventory
+            PreparedStatement deleteStmt = conn.prepareStatement(deleteSql);
+            deleteStmt.setInt(1, itemId);
+            
+            int affectedRows = deleteStmt.executeUpdate();
+            if (affectedRows > 0) {
+                JSONObject result = new JSONObject();
+                result.put("itemId", itemId);
+                result.put("message", "Item removed from inventory successfully");
+                return result;
+            } else {
+                JSONObject error = new JSONObject();
+                error.put("error", "Failed to remove item from inventory");
+                return error;
+            }
+        } catch (SQLException e) {
+            System.err.println("Error deleting inventory item: " + e.getMessage());
+            JSONObject error = new JSONObject();
+            error.put("error", "Database error: " + e.getMessage());
+            return error;
+        }
+    }
 }
