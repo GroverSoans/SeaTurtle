@@ -9,6 +9,33 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*
+ * This class contains all business logic for distributor-related operations in the candy inventory system.
+ * It handles database interactions and business rules for managing distributors and their product catalogs.
+ * 
+ * Core functionality:
+ * - Distributor Management: Create, read, and delete distributor records
+ * - Catalog Management: Add/remove items to distributor catalogs with pricing
+ * - Price Management: Update item costs in distributor catalogs
+ * - Pricing Analysis: Find cheapest restock options for specific quantities
+ * - Data Validation: Ensure referential integrity and business rule compliance
+ * 
+ * Key methods:
+ * - getAllDistributors(): Retrieve all distributor information
+ * - getItemsByDistributor(): Get all items and prices from a specific distributor
+ * - getOfferingsByItem(): Find all distributors offering a specific item with pricing
+ * - addNewDistributor(): Create new distributor with validation
+ * - addItemToDistributorCatalog(): Add items to catalog with duplicate prevention
+ * - updateItemPriceInCatalog(): Modify existing item pricing
+ * - getCheapestRestockPrice(): Calculate optimal restock pricing for quantities
+ * - deleteDistributor(): Remove distributor and all associated catalog entries
+ * 
+ * All methods include proper error handling, input validation, and return structured JSON responses.
+ * Database operations use prepared statements for security and transaction management for data consistency.
+ * 
+ * This class serves as the business logic layer between the HTTP routes and database operations.
+ */
+
 public class DistributorService {
     
     //Get all distributors with id and name

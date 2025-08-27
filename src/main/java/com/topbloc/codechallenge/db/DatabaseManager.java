@@ -9,6 +9,16 @@ import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 
+
+/*
+ * Class used to manage all database opperations
+ * It provides: 
+ * -Database connection used to connect to SQLite DB
+ * -Database schema and reset functionality
+ * -Initial test data insertion
+ * -Helper methods to convert querys to JSON
+ */
+
 public class DatabaseManager {
     private static final String jdbcPrefix = "jdbc:sqlite:";
     private static final String dbName = "challenge.db";

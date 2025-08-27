@@ -9,6 +9,36 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+/*
+ * This class contains all business logic for inventory management operations in the candy inventory system.
+ * It handles database interactions and business rules for managing product catalog and stock levels.
+ * 
+ * Core functionality:
+ * - Inventory Queries: Retrieve inventory items with various filtering criteria
+ * - Stock Analysis: Identify out-of-stock, overstocked, and low-stock items
+ * - Product Management: Add new items to the product catalog
+ * - Inventory Management: Add, update, and remove items from inventory tracking
+ * - Data Validation: Ensure referential integrity and business rule compliance
+ * 
+ * Key methods:
+ * - getAllInventoryItems(): Get complete inventory with stock and capacity
+ * - getOutOfStockItems(): Find items with zero stock remaining
+ * - getOverstockedItems(): Identify items exceeding capacity limits
+ * - getLowStockItems(): Find items below 35% of capacity (restock threshold)
+ * - getInventoryItemById(): Retrieve specific item details
+ * - addNewItem(): Create new product in catalog
+ * - addItemToInventory(): Add existing items to inventory tracking
+ * - updateInventoryItem(): Modify stock levels and capacity
+ * - deleteInventoryItem(): Remove items from inventory tracking
+ * 
+ * All methods include proper error handling, input validation, and return structured JSON responses.
+ * Database operations use prepared statements for security and include duplicate prevention logic.
+ * Stock analysis uses percentage-based thresholds for business intelligence reporting.
+ * 
+ * This class serves as the business logic layer between the HTTP routes and database operations
+ * for all inventory-related functionality.
+ */
+
 public class InventoryService {
     
     //Get all items in inventory with name, ID, stock, and capacity

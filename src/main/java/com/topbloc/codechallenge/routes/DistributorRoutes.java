@@ -11,6 +11,25 @@ import static spark.Spark.post;
 import static spark.Spark.put;
 import static spark.Spark.delete;
 
+/*
+ * This class defines all HTTP routes related to distributor operations in the candy inventory system.
+ * It provides RESTful API endpoints for managing distributors and their product catalogs.
+ * 
+ * Available endpoints:
+ * - GET /distributors - Retrieve all distributors
+ * - GET /distributors/:id/items - Get all items offered by a specific distributor
+ * - GET /items/:id/offerings - Get all distributor offerings for a specific item
+ * - POST /distributors - Create a new distributor
+ * - POST /distributors/:id/items - Add an item to a distributor's catalog with pricing
+ * - PUT /distributors/:id/items/:itemId/price - Update the price of an item in a distributor's catalog
+ * - GET /items/:id/restock-price - Calculate the cheapest restock price for an item at a given quantity
+ * - DELETE /distributors/:id - Remove a distributor and all associated pricing data
+ * 
+ * All endpoints return JSON responses and include proper HTTP status codes.
+ * Input validation is performed for request parameters, body content, and business logic constraints.
+ * 
+ */
+
 public class DistributorRoutes {
     
     public static void initialize() {

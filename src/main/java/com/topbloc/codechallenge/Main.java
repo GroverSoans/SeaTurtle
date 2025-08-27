@@ -28,5 +28,7 @@ public class Main {
         
         // Initialize all routes
         Routes.initializeAll();
+        
+
     }
 }

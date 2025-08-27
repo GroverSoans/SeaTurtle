@@ -1,5 +1,6 @@
 package com.topbloc.codechallenge.routes;
 
+
 import com.topbloc.codechallenge.service.InventoryService;
 import org.json.simple.JSONObject;
 import spark.Request;
@@ -10,6 +11,31 @@ import static spark.Spark.get;
 import static spark.Spark.post;
 import static spark.Spark.put;
 import static spark.Spark.delete;
+
+/*
+ * InventoryRoutes.java
+ * 
+ * This class defines all HTTP routes related to inventory management in the candy inventory system.
+ * It provides RESTful API endpoints for managing inventory items, stock levels, and product catalog.
+ * 
+ * Available endpoints:
+ * - GET /inventory - Retrieve all inventory items with current stock and capacity
+ * - GET /inventory/out-of-stock - Get items that have zero stock remaining
+ * - GET /inventory/overstocked - Get items where stock exceeds 80% of capacity
+ * - GET /inventory/low-stock - Get items where stock is below 20% of capacity
+ * - GET /inventory/:id - Get specific inventory item by ID
+ * - POST /items - Create a new item in the product catalog
+ * - POST /inventory - Add an existing item to inventory with initial stock and capacity
+ * - PUT /inventory - Update stock levels and capacity for an existing inventory item
+ * - DELETE /inventory/:id - Remove an item from inventory (cascade deletes related data)
+ * 
+ * All endpoints return JSON responses with appropriate HTTP status codes.
+ * Input validation ensures stock is non-negative, capacity is positive, and required fields are provided.
+ * Business logic validation prevents invalid operations like negative stock or zero capacity.
+ * 
+ * This class serves as the HTTP interface layer for inventory-related operations,
+ * delegating business logic to the InventoryService class.
+ */
 
 public class InventoryRoutes {
     
@@ -266,5 +292,6 @@ public class InventoryRoutes {
                 }
             }
         });
+
     }
 }
