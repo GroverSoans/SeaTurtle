@@ -8,11 +8,19 @@ import static spark.Spark.*;
 public class Main {
     public static void main(String[] args) {
         DatabaseManager.connect();
-        // Don't change this - required for GET and POST requests with the header 'content-type'
+        
+        // CORS configuration - allow frontend to access the API
+        before((req, res) -> {
+            res.header("Access-Control-Allow-Origin", "*");
+            res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
+            res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+        });
+        
+        // Handle preflight OPTIONS requests
         options("/*",
         (req, res) -> {
-            res.header("Access-Control-Allow-Headers", "content-type");
-            res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE");
+            res.header("Access-Control-Allow-Headers", "Content-Type, Authorization, X-Requested-With");
+            res.header("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS");
             return "OK";
         });
 

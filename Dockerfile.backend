@@ -1,0 +1,29 @@
+# Use OpenJDK 11 as base image
+FROM openjdk:11-jdk-slim
+
+# Set working directory
+WORKDIR /app
+
+# Install Maven and curl for debugging
+RUN apt-get update && \
+    apt-get install -y maven curl && \
+    apt-get clean && \
+    rm -rf /var/lib/apt/lists/*
+
+# Copy pom.xml first for better layer caching
+COPY pom.xml .
+
+# Copy source code
+COPY src/ ./src/
+
+# Build the application
+RUN mvn clean compile
+
+# Expose port 4567
+EXPOSE 4567
+
+# Set environment variable to bind to all interfaces
+ENV SPARK_HOST=0.0.0.0
+
+# Run the application
+CMD ["mvn", "exec:java", "-Dexec.mainClass=com.topbloc.codechallenge.Main"]
